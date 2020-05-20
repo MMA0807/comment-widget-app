@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { Form } from "./Components/Form";
-import { Comments } from "./Components/Comments";
+import React, { Component, lazy } from "react";
+import CommentListContainer from "./Components/Comment/CommentListContainer";
 import { Header } from "./Components/Header";
+
+const FormContainer = lazy(() => import('./Components/Form/FormContainer'))
 
 class App extends Component {
   constructor() {
@@ -26,7 +27,7 @@ class App extends Component {
           ...this.state.comments,
           {
             id: this.state.comments.length
-              ? this.state.comments.reduce((p, c) => (p.id > c.id ? p : c)).id + 1
+              ? this.state.comments.reduce((previousValue, currentItem) => (previousValue.id > currentItem.id ? previousValue : currentItem)).id + 1
               : 1,
             name: name,
             value: value,
@@ -52,9 +53,11 @@ class App extends Component {
     return (
       <div className="container">
         <Header />
-        <Form addCommentHandler={this.addCommentHandler} />
+        <React.Suspense fallback={<p>Loading...</p>}>
+          <FormContainer addCommentHandler={this.addCommentHandler} />
+        </React.Suspense>
 
-        <Comments
+        <CommentListContainer
           comments={this.state.comments}
           removeCommentHandler={this.removeCommentHandler}
         />

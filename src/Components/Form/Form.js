@@ -1,26 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
-export const Form = ({addCommentHandler}) => {
-  const [name, setName] = useState("");
-  const [commentText, setValue] = useState("");
-
-  const submitHandler = (event) => {
-    event.preventDefault();
-
-    if (commentText.trim() && name.trim()) {
-      addCommentHandler(name, commentText)
-      setValue("")
-      setName("")
-    } else {
-      alert('Введите данные.')
-    }
-  };
-
+const Form = ({ name, setName, commentText, setValue, submitHandler }) => {
   return (
     <form onSubmit={submitHandler}>
       <div className="form-group row">
         <label htmlFor="commentAuthor" className="col-sm-2 col-form-label">
-          Имя
+          Имя:
         </label>
         <div className="col-sm-10">
           <input
@@ -35,7 +20,7 @@ export const Form = ({addCommentHandler}) => {
       </div>
       <div className="form-group row">
         <label htmlFor="commentBox" className="col-sm-2 col-form-label">
-          Ваш комментарий
+          Ваш комментарий:
         </label>
         <div className="col-sm-10">
           <textarea
@@ -47,9 +32,13 @@ export const Form = ({addCommentHandler}) => {
             value={commentText}
             onChange={(event) => setValue(event.target.value)}
           />
-          <button type="submit" className="btn btn-primary mt-4">Отправить</button>
+          <button type="submit" className="btn btn-primary mt-4">
+            Отправить
+          </button>
         </div>
       </div>
     </form>
   );
 };
+
+export default Form;
