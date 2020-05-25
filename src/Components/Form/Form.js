@@ -1,36 +1,40 @@
 import React from "react";
 
-const Form = ({ name, setName, commentText, setValue, submitHandler }) => {
+export const Form = ({ comments, submitHandler, handleChange }) => {
   return (
     <form onSubmit={submitHandler}>
       <div className="form-group row">
         <label htmlFor="commentAuthor" className="col-sm-2 col-form-label">
-          Имя:
+          Имя
         </label>
         <div className="col-sm-10">
           <input
             id="commentAuthor"
+            name="author"
             type="text"
             className="form-control"
             placeholder="Введите свое Имя..."
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            required
+            value={comments.author}
+            onChange={handleChange}
           />
         </div>
       </div>
       <div className="form-group row">
         <label htmlFor="commentBox" className="col-sm-2 col-form-label">
-          Ваш комментарий:
+          Ваш комментарий
         </label>
         <div className="col-sm-10">
           <textarea
             id="commentBox"
             rows="3"
+            name="comment"
             type="text"
             className="form-control"
             placeholder="Оставьте свой комментарий..."
-            value={commentText}
-            onChange={(event) => setValue(event.target.value)}
+            required
+            value={comments.comment}
+            onChange={handleChange}
           />
           <button type="submit" className="btn btn-primary mt-4">
             Отправить
@@ -40,5 +44,3 @@ const Form = ({ name, setName, commentText, setValue, submitHandler }) => {
     </form>
   );
 };
-
-export default Form;
