@@ -12,6 +12,8 @@ class App extends Component {
       comment: ''
     };
 
+    this.handleChange = this.handleChange.bind(this)
+    this.submitHandler = this.submitHandler.bind(this)
   }
 
   componentDidMount() {
@@ -76,19 +78,19 @@ class App extends Component {
     
 
     return (
-      <div className="container">
+      <main className="container">
         <Header />
         <Form 
           comments={this.state}
-          handleChange={this.handleChange.bind(this)}  
-          submitHandler={this.submitHandler.bind(this)}
+          handleChange={this.handleChange}  
+          submitHandler={this.submitHandler}
         />
 
         <CommentList
           comments={this.state}
           removeCommentHandler={this.removeCommentHandler}
         />
-      </div>
+      </main>
     );
   }
 }
