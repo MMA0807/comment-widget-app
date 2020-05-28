@@ -2,14 +2,17 @@ import React from "react";
 import { Comment } from "./Comment";
 import "./comment.scss";
 
-export const CommentList = ({ comments, removeCommentHandler }) => {
+export const CommentList = ({ comments, removeComment }) => {
   return (
     <ul className="list-group mt-5">
-      {comments.comments.map((comment) => (
-        <li className="media list-group-item mb-4" key={comment.id}>
+      {comments.map((item) => (
+        <li className="media list-group-item mb-4" key={item.id}>
             <Comment 
-              comment={comment} 
-              removeCommentHandler={removeCommentHandler}  
+              id={item.id}
+              author={item.author}
+              comment={item.comment}
+              date={item.date}
+              removeComment={removeComment}  
             />
         </li>
       ))}

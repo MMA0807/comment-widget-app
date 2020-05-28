@@ -1,19 +1,17 @@
 import React from "react";
 
-export const Comment = ({ comment, removeCommentHandler }) => {
+export const Comment = ({ id, author, comment, date, removeComment }) => {
   return (
     <div className="media-body comment">
       <div>
-        <h5 className="mt-0 mb-1">{comment.author}</h5>
-        <span>{comment.comment}</span>
-        <small>
-          {comment.time} {comment.date}
-        </small>
+        <h2 className="mt-0 mb-1 h5">{author}</h2>
+        <span className="text-muted">{comment}</span>
+        <small className="text-muted">{date}</small>
       </div>
       <button
         type="button"
         className="btn btn-outline-dark btn-sm"
-        onClick={() => removeCommentHandler(comment.id)}
+        onClick={() => removeComment(id)}
       >
         &times;
       </button>
