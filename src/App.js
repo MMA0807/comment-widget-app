@@ -7,7 +7,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      comments: [],
+      item: [],
       author: "",
       comment: "",
       alert: false,
@@ -15,89 +15,84 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({ ...JSON.parse(localStorage.getItem("state") || "[]") });
+    this.setState({ ...JSON.parse(localStorage.getItem("comments") || "[]") });
   }
 
-  setItemLocalStorage = () => localStorage.setItem("state", JSON.stringify({ comments: this.state.comments }));
+  setItemLocalStorage = () =>
+    localStorage.setItem("comments", JSON.stringify({ item: this.state.item }));
 
   showAlert = () => {
-    this.setState({
-      alert: true,
-    });
+    this.setState((prevState) => ({
+      alert: !prevState.alert,
+      author: "",
+      comment: ""
+    }));
   };
 
-  hideAlert = () => {
-    this.setState({
-      alert: false,
-    });
-  };
-
-  addComment = () => {
-    const { comments, author, comment } = this.state;
+  formSubmitHandler = (e) => {
+    e.preventDefault();
+    const { item, author, comment } = this.state;
     const date = Date.now();
 
     if (!author.trim() || !comment.trim()) {
       this.showAlert();
       setTimeout(() => {
-        this.hideAlert();
-      }, 3000);
+        this.showAlert();
+      }, 2000);
     } else {
-      comments.push({
-        id: date,
-        author: author,
-        comment: comment,
-        date: new Date(date).toLocaleString(),
-      });
-    }
+      const newItem = item.concat([
+        {
+          id: date,
+          author: author,
+          comment: comment,
+          date: new Date(date).toLocaleString(),
+        },
+      ]);
 
-    this.setState(
-      {
-        author: "",
-        comment: "",
-      },
-      this.setItemLocalStorage
-    );
+      this.setState(
+        {
+          item: newItem,
+          author: "",
+          comment: "",
+        },
+        this.setItemLocalStorage
+      );
+    }
   };
 
   removeComment = (id) => {
     this.setState(
       (prevState) => ({
-        comments: prevState.comments.filter((comment) => comment.id !== id),
+        item: prevState.item.filter((comment) => comment.id !== id),
       }),
       this.setItemLocalStorage
     );
   };
 
   handleChange = (event) => {
-    const {name, value} = event.target
-    
+    const { name, value } = event.target;
+
     this.setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  submitHandler = (e) => {
-    e.preventDefault();
-    this.addComment();
-  };
-
   render() {
+    const { item, alert, author, comment } = this.state;
+
     return (
       <main className="container">
         <Header />
         <Form
-          alert={this.state.alert}
-          author={this.state.author}
-          comment={this.state.comment}
+          alert={alert}
+          author={author}
+          comment={comment}
           handleChange={this.handleChange}
-          submitHandler={this.submitHandler}
+          formSubmitHandler={this.formSubmitHandler}
         />
 
-        <CommentList
-          comments={this.state.comments}
-          removeComment={this.removeComment}
-        />
+        <CommentList item={item} removeComment={this.removeComment} />
       </main>
     );
   }

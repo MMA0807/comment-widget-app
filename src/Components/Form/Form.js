@@ -1,9 +1,9 @@
 import React from "react";
 import { Alert } from "../Alert/Alert";
 
-export const Form = ({ alert, author, comment, submitHandler, handleChange }) => {
+export const Form = ({ alert, author, comment, formSubmitHandler, handleChange }) => {
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={formSubmitHandler}>
       {alert && <Alert /> }
       <div className="form-group row">
         <label htmlFor="commentAuthor" className="col-sm-2 col-form-label" hidden>
