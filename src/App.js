@@ -7,7 +7,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      item: [],
+      comments: [],
       author: "",
       comment: "",
       alert: false,
@@ -15,11 +15,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({ ...JSON.parse(localStorage.getItem("comments") || "[]") });
+    this.setState({ ...JSON.parse(localStorage.getItem("item") || "[]") });
   }
 
-  setItemLocalStorage = () =>
-    localStorage.setItem("comments", JSON.stringify({ item: this.state.item }));
+  setItemLocalStorage = () => {
+    localStorage.setItem("item", JSON.stringify({ comments: this.state.comments }));
+  }
 
   showAlert = () => {
     this.setState((prevState) => ({
@@ -31,7 +32,7 @@ class App extends Component {
 
   formSubmitHandler = (e) => {
     e.preventDefault();
-    const { item, author, comment } = this.state;
+    const { comments, author, comment } = this.state;
     const date = Date.now();
 
     if (!author.trim() || !comment.trim()) {
@@ -40,7 +41,7 @@ class App extends Component {
         this.showAlert();
       }, 2000);
     } else {
-      const newItem = item.concat([
+      const newComment = comments.concat([
         {
           id: date,
           author: author,
@@ -51,7 +52,7 @@ class App extends Component {
 
       this.setState(
         {
-          item: newItem,
+          comments: newComment,
           author: "",
           comment: "",
         },
@@ -63,7 +64,7 @@ class App extends Component {
   removeComment = (id) => {
     this.setState(
       (prevState) => ({
-        item: prevState.item.filter((comment) => comment.id !== id),
+        comments: prevState.comments.filter((comment) => comment.id !== id),
       }),
       this.setItemLocalStorage
     );
@@ -79,7 +80,7 @@ class App extends Component {
   };
 
   render() {
-    const { item, alert, author, comment } = this.state;
+    const { comments, alert, author, comment } = this.state;
 
     return (
       <main className="container">
@@ -92,7 +93,7 @@ class App extends Component {
           formSubmitHandler={this.formSubmitHandler}
         />
 
-        <CommentList item={item} removeComment={this.removeComment} />
+        <CommentList comments={comments} removeComment={this.removeComment} />
       </main>
     );
   }

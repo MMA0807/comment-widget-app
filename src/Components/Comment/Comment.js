@@ -3,8 +3,7 @@ import React from "react";
 export const Comment = ({ item, removeComment }) => {
   const {id, author, comment, date} = item
 
-  return (
-    <li className="media list-group-item mb-4">
+  return (    
       <div className="media-body comment">
         <div>
           <h2 className="mt-0 mb-1 h5">{author}</h2>
@@ -19,6 +18,5 @@ export const Comment = ({ item, removeComment }) => {
           &times;
         </button>
       </div>
-    </li>
   );
 };
